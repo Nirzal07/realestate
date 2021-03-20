@@ -28,7 +28,7 @@ SECRET_KEY = '_02p#%1(hb^!mh^9xv7zz7-+xgc+#-i!idw!p35c6j4&%yaulk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["nirzal07.herokuapp.com"]
+ALLOWED_HOSTS = ["nirzal07.herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
@@ -141,7 +141,7 @@ STATICFILES_DIRS= [
 
 # media files
 MEDIA_URL= '/media/'
-MEDIA_ROOT= BASE_DIR/'media'
+MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 
 # email configurations
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
