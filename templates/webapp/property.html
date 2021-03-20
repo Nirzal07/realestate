@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block content %}
+<DIV class="container-fluid">
+  <div style="background:red; border-radius:20px; border-color:white" class="pb-1 mb-1"><p class="text-light text-center h1">{{property.property_title}}</p></div>
+
+  <!--property images-->
+<div class="row g-0">
+  <div class="col-sm-12 col-md-10">
+
+    <img style="border-radius:20px" class="mb-2" src="{{property.main_image.url}}">
+    {% if property.image2 %}
+    <img style="width:30%" src="{{property.image2.url}}">
+    {% endif %}
+    {% if property.image3 %}
+    <img style="width:30%" src="{{property.image3.url}}">
+    {% endif %}
+    {% if property.image4 %}
+    <img style="width:30%" src="{{property.image4.url}}">
+    {% endif %}
+    <h1 class="text-center">Rs: {{property.price|intcomma}}</h1>
+    <div class="text-center">
+    </div>
+  </div>
+
+  <!--seller details-->
+  <div class="col-md-2 text-center">
+    <div style="margin-top:70%">
+      <hr>
+    <h2>Seller</h2>
+    <img style="width:150px; border-radius:100px" src="{{picture.profile_picture.url}}"><br>
+      <h6 class="mt-2">{{property.seller.first_name}} {{property.seller.last_name}}</h6>
+      <h6>{{property.seller.email}}</h6>
+      <hr>
+      </div>
+  </div>
+</div>
+
+      <section class="my-3 pb-2" style="background:rgb(240, 240, 240)" id="property-detail">
+      <div style="background:red" class="h3 text-light text-center py-2 my-3">Property Details</div>
+      <div class="row container">
+        <div class="col-6 h2">Type: {{property.property_type | capfirst}}</div>
+        <div class="col-6 h2">Purpose: {{property.property_option | capfirst}}</div>
+      </div>
+      <div class="row container">
+        <div class="col-6 h2"> Bedrooms: {{property.bedrooms}}</div>
+        <div class="col-6 h2"> Bathrooms: {{property.bathrooms}}</div>
+      </div>
+      <div class="row container">
+        <div class="col-6 h2"> District: {{property.district | capfirst}}</div>
+        <div class="col-6 h2"> Address: {{property.address | capfirst}}</div>
+      </div>
+      </section>
+      <section>
+      <div style="background:red" class="h3 text-light text-center py-2 mt-5">Property Description</div>
+      <div class="row container">
+        <div class="col-12 text-center fs-5">{{property.property_description}}</div>
+      </div>
+    </section>
+   </DIV>
+<hr>
+<!--Comment Form-->
+<div class="container">
+<form method="post" action="{% url 'webapp:property' property.id %}" class="my-5">
+  {% csrf_token %}
+  <h6 class="container">
+      {% if request.user.is_authenticated %}
+      {{request.user}}
+       {% else %}
+      You aren't logged in.
+      <a class="h5" href="{% url 'userapp:user_login' %}">Login Here</a>
+      {% endif %}
+  </h6>
+  <textarea name="comment" class="form-control" cols="10" rows="2" placeholder="Write a Comment..."></textarea>
+  <input type="submit" class="btn btn-dark my-2" value="Comment">
+</form>
+  </div>
+
+<!--Comments-->
+<section id="comments" class="container">
+{% if comments %}
+        <h1 class="text-center">Comments</h1>
+<ul class="list-group">
+{% for comment in comments %}
+    <p>{{comment.user}}</p>
+  <li class="list-group-item mb-4">{{comment.comment}}</li>
+  {% endfor %}
+</ul>
+{% endif %}
+  </section>
+{% endblock content %}

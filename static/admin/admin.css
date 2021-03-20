@@ -1,0 +1,12 @@
+#header {
+    background:red;
+    color:white;
+    text-align:right;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: flex-start;
+}
+
+#branding {
+    color:red;
+}

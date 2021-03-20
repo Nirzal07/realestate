@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Profile{% endblock title %}
+{% block content %}
+<div style="background-color: red;" class="text-white text-center py-2">
+    <h1>Dashboard || {{request.user.username}}</h1>
+</div>
+<div class="container text-center">
+
+    <br>
+    {% if profile_picture %}
+    <img style="width:200px; border-radius:50px;" src="{{profile_picture.profile_picture.url}}">
+    {% else %}
+    <img style="width:200px; border-radius:50px;" src="{% static 'clipart/profile.png' %}">
+    {% endif %}
+    <h5 class="my-3">{{request.user.first_name}}  {{request.user.last_name}}</h5>
+    <h5 class="my-3">{{request.user.email}}</h5>
+    <hr>
+    <!--user activity-->
+    <div style="background:rgb(240, 240, 240)" class="row pb-3">
+        <div style="background:red" class="btn text-white pb-1 mb-3">
+            <h2>Your Activities</h2>
+        </div>
+        <div class="col-6">
+            <img style="width:40px" src="{% static 'Img2/simple-black-house-hi.png' %}">
+            <p class="text-muted">Property On Sell</p>
+            <h2>{{user_properties_count}}</h2>
+        </div>
+        <div class="col-6">
+            <img style="width:40px" src="{% static 'clipart/download.png' %}">
+            <p class="text-muted">Favourites</p>
+            <h2>{{favourites_count}}</h2>
+        </div>
+    </div>
+
+    <!--user's properties -->
+    <div style="background:rgb(240, 240, 240); margin-top:8%" class="row">
+        <div style="background:red" class="text-white py-1 mb-3">
+            <h2>Properties You Have Added</h2>
+        </div>
+        {% if properties %}
+        {% for property in properties %}
+        <div class="col-lg-4 col-sm-6">
+            <div class="card mb-3">
+                <a class="btn" href="{% url 'webapp:property' property.id %}"><img src="{{property.main_image.url}}" class="card-img-top rounded " alt="..."></a>
+                <div class="card-body">
+                    <p class="card-text h4 text-center">{{property.property_title}}</p>
+                    <div class="row">
+
+                        <div class="col-12">
+                            <hr>
+                            <img style="width:25px" class="mt-1" src="static/clipart/location.png">
+                            {{property.address}}, {{property.district}}
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-6 text-muted">
+                            <img style="width:25px"
+                                src="{% static 'clipart/bedroom.png' %}">&nbsp;&nbsp;&nbsp;{{property.bedrooms}}
+                        </div>
+                        <div class="col-6 text-muted">
+                            <img style="width:35px" src="{% static 'clipart/restroom.png' %}">
+                            &nbsp;&nbsp;&nbsp;{{property.bathrooms}}
+                        </div>
+                    </div>
+                    <img style="width:20px"
+                        src="{% static 'clipart/time.png' %}">&nbsp;&nbsp;&nbsp;&nbsp;{{property.uploaded_on|naturaltime}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h3>You haven't added any properties for Sell or Rent.</h3>
+        {% endif %}
+    </div>
+
+    <!--user favourites-->
+    <div style="background:rgb(240, 240, 240); margin-top:8%" class="row pb-5">
+        <div style="background:red" class="text-white py-1 mb-3">
+            <h2>Favourites</h2>
+        </div>
+        {% if favourites %}
+        {% for property in favourites %}
+        <div class="col-4">
+            <div class="card mb-3">
+                <a class="btn" href="{% url 'webapp:property' property.id %}"><img src="{{property.main_image.url}}"
+                        style="height:200px" class="card-img-top rounded " alt="..."></a>
+                <div class="card-body">
+                    <p class="card-text h4 text-center">{{property.property_title}}</p>
+                    <div class="row">
+
+                        <div class="col-12">
+                            <hr>
+                            <img style="width:25px" class="mt-1" src="static/clipart/location.png">
+                            {{property.address}}, {{property.district}}
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-6 text-muted">
+                            <img style="width:25px"
+                                src="{% static 'clipart/bedroom.png' %}">&nbsp;&nbsp;&nbsp;{{property.bedrooms}}
+                        </div>
+                        <div class="col-6 text-muted">
+                            <img style="width:35px" src="{% static 'clipart/restroom.png' %}">
+                            &nbsp;&nbsp;&nbsp;{{property.bathrooms}}
+                        </div>
+                    </div>
+                    <img style="width:20px"
+                        src="{% static 'clipart/time.png' %}">&nbsp;&nbsp;&nbsp;&nbsp;{{property.uploaded_on|naturaltime}}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h3>You haven't added any properties in Favourites.</h3>
+        {% endif %}
+    </div>
+
+
+    <div style="background:rgb(240, 240, 240); margin-top:8%" class="row mb-5 pb-3">
+        <div style="background:red" class="btn text-white pb-1 mb-3">
+            <h2>Update Your Profile</h2>
+        </div>
+        <div class="col-6">
+            {% if profile_picture %}
+            <img style="width:200px;border-radius:50px;" src="{{profile_picture.profile_picture.url}}">
+            {% else %}
+            <img style="width:200px;border-radius:50px;" src="{% static 'clipart/profile.png' %}">
+            {% endif %}
+        </div>
+        <div class="col-6">
+            <form method="post" action="{% url 'userapp:profile' %}">
+                {% csrf_token %}
+                <div style="background:rgb(250, 250, 250)" class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        <h6 class="text-center">Personal Information</h6>
+                    </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {{profile_update_form.as_p}}
+                    </div>
+                    </div>
+                </div>
+                <!--<div style="background:rgb(250, 250, 250)" class="accordion-item mt-5">
+                    <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsewo" aria-expanded="false" aria-controls="collapseTwo">
+                        <h6 class="text-center">Update Profile Picture</h6>
+                    </button>
+                    </h2>
+                    <div id="collapsewo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {{profile_pic_update_form.profile_picture}}
+                    </div>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-danger mt-3" value="Update">-->
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

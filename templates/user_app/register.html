@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% block title %}Registration{% endblock title %}
+{% load socialaccount %}
+{% load static %}
+{% block content %}
+<h2 style="background:red" class="text-light text-center py-2">Register To DalayVai</h2>
+<p class="text-center mt-4 h5"><a class="btn btn-primary" href="{% provider_login_url 'google' %}"><img style="width:40px" src="{% static 'google.jpg' %}">  Login with Google</a></p>
+<p class="text-center text-muted my-4">OR,</p>
+<div class="row text-center">
+    <div class="col-12">
+        <div class="card mx-auto" style="width: 22rem; background:rgb(240, 240, 240); margin-bottom:13%">
+            <div class="card-body">
+<form class="text-center" action="{% url 'userapp:register' %}" method="post">
+    {% csrf_token %}
+    <h2 class="card-title">Register</h2>
+    <div class="row">
+        <div style="width:45%; margin-left:5%" class="col-6 mb-3"><input type="text" class="form-control" name="first_name" placeholder="First Name"></div>
+        <div style="width:45%" class="col-6 mb-3"><input type="text" class="form-control" name="last_name" placeholder="Last Name"></div>
+    </div>
+    <p style="width:90%; margin-left:5%"><input type="text" class="form-control" name="username" placeholder="Username"></p>
+    <p style="width:90%; margin-left:5%"><input type="email" class="form-control" name="email" placeholder="Email"></p>
+    <p style="width:90%; margin-left:5%"><input type="password" class="form-control" name="password" placeholder="Password"></p>
+   <p style="width:90%; margin-left:5%"><input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password"></p>
+
+    <input class="btn btn-outline-danger" type="submit" value="Register">
+    <p class="text-muted my-2">Already Have an Account? <a href="{% url 'userapp:user_login' %}">Login Here!</a></p>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock content %}

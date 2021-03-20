@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Property-Form | DalayVai{% endblock title %}
+{% block content %}
+<section id="form">
+    <div style="background:red">
+    <h1 class="mb-4 py-3 text-center text-light">Property Selling Form</h1>
+    {% include 'webapp/alert.html' %}
+        </div>
+    <div class="container">
+    <form action="{% url 'webapp:property_form' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row my-4">
+            <div class="col-6">
+                <p>Property-Type:</p>{{form.property_type}}
+            </div>
+            <div class="col-6">
+                <p>For:</p>{{form.property_option}}
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-12">
+        <p>Title:</p>{{form.property_title}}
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-12">
+        <p>Main Image</p>{{form.main_image}}
+            </div>
+        </div>
+        <h6>Additional Images</h6>
+        <div class="row my-4">
+            <div class="col-4">
+        <p>Image 2</p>{{form.image2}}
+            </div>
+            <div class="col-4">
+        <p>Image 3</p>{{form.image3}}
+            </div>
+        <div class="col-4">
+        <p>Image 4</p>{{form.image4}}
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-12">
+        <p>Description:</p>{{form.property_description}}
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col-4">
+                <p>Price:</p>{{form.price}}
+            </div>
+            <div class="col-4">
+        <p>Bedrooms:</p>{{form.bedrooms}}
+            </div>
+            <div class="col-4">
+        <p>Bathrooms:</p>{{form.bathrooms}}
+            </div>
+        </div>
+        <div class="row my-4">
+            <p>Address:</p>
+            <div class="col-4">
+        <p>Province:</p>{{form.Province}}
+            </div>
+        <div class="col-4">
+        <p>District:</p>{{form.district}}
+            </div>
+        <div class="col-4">
+        <p>Address:</p>{{form.address}}
+            </div>
+        </div>
+        <input type="submit" value="Submit" class="btn btn-danger">
+    </form>
+</div>
+</section>
+{% endblock content %}

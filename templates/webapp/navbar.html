@@ -1,0 +1,38 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'webapp:home' %}"> <img style='width:8%;' src="{% static 'clipart/navbar.png' %}"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        {% url 'webapp:home' as url %}
+        <a class="btn btn-sm btn-outline-light m-auto mx-1 {% if request.path == url %}active{% endif %}" aria-current="page" href="{{ url }}">Home</a>
+        {% url 'webapp:about' as url %}
+        <a class="btn btn-sm btn-outline-light m-auto mx-1 {% if request.path == url %}active {% endif %}" href="{% url 'webapp:about' %}">About Us</a>
+        {% url 'webapp:property_form' as url %}
+        <a class="btn btn-sm btn-outline-light m-auto mx-1 {% if request.path == url %} active {% endif %}" href="{{ url }}">Sell Your Property</a>
+        <div style="margin-left:5%" class="d-flex">
+        {% if user.is_authenticated %}
+          <div style="background:yellow" class="btn btn-sm m-auto mx-1">
+            <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {{user.username}}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{% url 'userapp:profile' %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'userapp:user_logout' %}">Logout</a></li>
+            </ul>
+            </div>
+          </div>
+
+        {% else %}
+        <a  class="btn btn-sm btn-warning m-auto mx-1" href="{% url 'userapp:user_login' %}">Login</a>
+        <a class="btn btn-sm btn-warning m-auto mx-1" href="{% url 'userapp:register' %}">Register</a>
+        </div>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>

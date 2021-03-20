@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+{% extends 'admin/base.html' %}
+{% load static %}
+<style>
+{% block branding %}
+<h1>Admin Panel | Dalay Vai</h1>
+{% endblock %}
+</style>
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'custom_admin/admin.css' %}">
+{% endblock %}

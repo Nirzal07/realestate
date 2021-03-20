@@ -1,0 +1,66 @@
+body{
+    background:rgb(230, 230, 230);
+    color: rgb(255, 255, 255);
+}
+
+/* django administration background */
+#header {
+    background:rgb(255, 0, 0);
+    flex-direction: column;
+    padding: 20px;
+    justify-content: flex-start;
+}
+
+
+caption {
+    background:white
+}
+
+/* django administration text */
+#branding h1,{
+    color: rgb(0, 255, 255);
+}
+
+/* App titles background */
+.module h2, .module caption, .inline-group h2 {
+    margin: 0;
+    padding: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    text-align: center;
+    background: rgb(0, 255, 255);
+    color: rgb(255, 255, 255);
+}
+
+/* recents actions panel*/
+#content-related .module {
+    margin-bottom: 4;
+    background:rgb(255, 255, 255);
+}
+
+a:link, a:visited {
+    color:rgb(0, 0, 0)
+}
+
+#container > div {
+    color:rgb(0,0,0);
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color:rgb(255,255,255)
+}
+
+/* App titles text */
+a.section:link, a.section:visited {
+    color: rgb(0,0,0);
+}
+
+/* apps models titles list*/
+.dashboard .module table th {
+
+}
+
+#user-tools {
+    margin-top: 1%;
+    color: rgb(255, 255, 255)
+}

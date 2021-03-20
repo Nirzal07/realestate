@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Search Results|DAlayVai{% endblock title %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+<!--search-form-->
+<section id="search-form">
+<div style="margin-left:10%; margin-right:10%;" class="text-white bg-danger my-4 pt-1 pb-3">
+<form action="{% url 'webapp:search' %}" method="get" class="mx-4">
+    <h2 class="text-center my-3">Search</h2>
+        <div class="row">
+            <div class="col-6">
+        <input class="form-control mb-2" name="features" value="{{values.features}}" placeholder="Special features you want like Pool, Garage etc">
+            </div>
+            <div class="col-6">
+        <input class="form-control mb-2" name="address" value="{{values.address}}" placeholder="District">
+            </div>
+                </div>
+    <div class="row mt-2">
+                <div class="col-6">
+                   <select class="form-select" name="bedrooms" aria-label="Default select example">
+                      <option disabled="disabled" selected>Bedrooms</option>
+                       {% for key,value in bedroom_choice.items %}
+                      <option value="{{key}}" {% if key == values.bedrooms %} selected {% endif %}>
+                          {{value}}</option>
+                       {% endfor %}
+                    </select>
+                    </div>
+            <div class="col-6">
+             <select class="form-select" name="price" aria-label="Default select example">
+                 <option selected disabled="disabled">Max Price</option>
+                 {% for key,value in price_range.items %}
+                 <option value="{{value}}" {% if value == values.price %} selected {% endif %}>{{key}}</option>
+                 {% endfor %}
+             </select>
+            </div>
+    </div>
+    <div class="mt-5 text-center">
+        <button style="padding-right:35%; padding-left:35%" class="btn btn-outline-light rounded" type="submit">Search</button>
+    </div>
+</form>
+</div>
+</section>
+
+<!--search-results-->
+<section>
+    <div class="container">
+<div class="row">
+    {% if properties %}
+    <h2 class="text-center">Results</h2>
+    {% for property in properties %}
+    <div class="col-sm-12 col-lg-4 col-md-6">
+        <div class="card my-3">
+            <a style="border-radius:10px" class="btn" href="{% url 'webapp:property' property.id %}">
+                <img src="{{property.main_image.url}}" class="card-img-top rounded " alt="...">
+            </a>
+  <div class="card-body">
+    <p class="card-text h4 text-center">{{property.property_title}}</p>
+      <div class="row">
+          <div class="col-12">
+                          <hr>
+              <img style="width:25px" class="mt-1" src="static/clipart/location.png">&nbsp;&nbsp;{{property.address}}, {{property.district}}
+          </div>
+      </div>
+      <div class="row my-2">
+          <div class="col-6 text-muted">
+              <img style="width:25px"  src="{% static 'clipart/bedroom.png' %}">  {{property.bedrooms}}
+          </div>
+           <div class="col-6 text-muted">
+              <img style="width:35px"  src="{% static 'clipart/restroom.png' %}">  {{property.bathrooms}}
+          </div>
+      </div>
+       <img style="width:20px"  src="{% static 'clipart/time.png' %}">&nbsp;&nbsp;&nbsp;&nbsp;{{property.uploaded_on|naturaltime}}
+  </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h1 class="text-center">Sorry! No Properties to Show</h1>
+    {% endif %}
+</div>
+        </div>
+</section>
+{% endblock content %}

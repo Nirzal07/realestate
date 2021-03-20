@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock title %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="container-fluid my-2">
+  <div class="row">
+    <!--filter-->
+    <div class="col-md-3">
+      <h1 class="text-center mt-3">Filters</h1>
+      <form style="margin-top:20%;" method="post" action="{% url 'webapp:property_list' %}">
+        {% csrf_token %}
+        <div style="width:15rem; background:rgb(240,240,240)" class="card container mb-3">
+          <h3 class="my-3">Property-Type</h3>
+          <div class="form-check">
+            <p><input class="form-check-input" value="house" type="radio" name="type">
+              House </p>
+            <p><input class="form-check-input" value="land" type="radio" name="type">
+              Land</p>
+          </div>
+        </div>
+        <div style="width:15rem; background:rgb(240,240,240)" class="card container my-5">
+          <h3 class="my-3">Purpose</h3>
+          <div class="form-check">
+            <p><input class="form-check-input" value="sell" type="radio" name="for">
+              Buy </p>
+            <p><input class="form-check-input" value="rent" type="radio" name="for">
+              Rent</p>
+          </div>
+        </div>
+        <div class="my-3 text-center">
+          <input type="submit" value="Filter" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+    <!--list_of_properties-->
+
+    <div class="col-md-9">
+      <div class="container">
+        {% if properties %}
+        <div class="row">
+          <div class="text-light py-2 mb-4" style="background:red; border-radius:25px">
+            <h2 class="text-center">Available Properties</h2>
+          </div>
+          {% for property in properties %}
+          <div class="col-md-4 col-sm-12">
+            <div class="card mb-3">
+              <a class="btn" href="{% url 'webapp:property' property.id %}"><img src="{{property.main_image.url}}"
+                  class="card-img-top rounded " alt="..."></a>
+              <div class="card-body">
+                <p class="card-text h4 text-center">{{property.property_title}}</p>
+                <div class="row">
+
+                  <div class="col-12">
+                    <hr>
+                    <img style="width:25px" class="mt-1" src="static/clipart/location.png"> {{property.address}},
+                    {{property.district}}
+                  </div>
+                </div>
+                <div class="row my-2">
+                  <div class="col-6 text-muted">
+                    <img style="width:25px"
+                      src="{% static 'clipart/bedroom.png' %}">&nbsp;&nbsp;&nbsp;{{property.bedrooms}}
+                  </div>
+                  <div class="col-6 text-muted">
+                    <img style="width:35px" src="{% static 'clipart/restroom.png' %}">
+                    &nbsp;&nbsp;&nbsp;{{property.bathrooms}}
+                  </div>
+                </div>
+                <img style="width:20px"
+                  src="{% static 'clipart/time.png' %}">&nbsp;&nbsp;&nbsp;&nbsp;{{property.uploaded_on|naturaltime}}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!--pagination-->
+        <div style="margin-left:38%" class="row">
+          <div class="col-12">
+            {% if properties.has_other_pages %}
+            <ul class="pagination">
+              {% if properties.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{properties.previous_page_number}}" tabindex="-1"
+                  aria-disabled="true">&laquo;</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+              </li>
+              {% endif %}
+              {% for i in properties.paginator.page_range %}
+              {% if properties.number == i %}
+              <li class="page-item active">
+                <a class="page-link">{{i}}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{i}}">{{i}}</a>
+              </li>
+              {% endif %}
+              {% endfor %}
+              {% if properties.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{properties.next_page_number}}">&raquo;</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">&raquo;</a>
+              </li>
+              {% endif%}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+        <!--ends pagination-->
+        {% else %}
+        <h2>Sorry! No such Properties</h2>
+        {% endif %}
+      </div>
+      <!--ends list_of_properties-->
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
